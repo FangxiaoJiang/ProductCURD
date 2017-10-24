@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var CDCRUD = require('./routes/CDCRUD');
 var BookCRUD = require('./routes/BookCRUD');
 var ProductCRUD = require('./routes/ProductCRUD');
+var UserCRUD = require('./routes/UserCRUD');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use('/users', users);
 app.use('/api/CDs', CDCRUD);
 app.use('/api/Books', BookCRUD);
 app.use('/api/Products', ProductCRUD);
+app.use('/api/User', UserCRUD);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

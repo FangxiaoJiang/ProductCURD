@@ -17,6 +17,12 @@ router.route('/')
     })
 
 router.route('/:id')
+    .get(function (req, res) {
+        inMemoryproductBD.findOne({'id':req.params.id},function(err,product){
+        	if(err) throw err;
+        	res.json(product);
+        });
+    })
     .put(function (req, res) {
         inMemoryproductBD.findOneAndUpdate({'id':req.params.id},req.body,function(err,product){
         	if(err) throw err;
