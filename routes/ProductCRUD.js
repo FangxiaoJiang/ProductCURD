@@ -1,36 +1,57 @@
-const express = require('express');
-const router = express.Router();
-const inMemoryproductBD = require('../model/product');
+var express = require('express');
+var router = express.Router();
+var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
 
+var db
+//mongodb://<dbuser>:<dbpassword>@ds041516.mlab.com:41516/onlineshoppingdb
+MongoClient.connect('mongodb://lwam:Godisgood2017@ds041516.mlab.com:41516/onlineshoppingdb', function (err, database) {
+    if (err) return console.log(err)
+    db = database
+})
+
+/*router.get('/', function (req, res, next) {
+    db.collection('products').find().toArray(function (err, doc) {
+        if (err) {
+            console.log('Error fetching data from mongodb');
+            res.send(err)
+        }
+        res.json(doc);
+    });
+});*/
 router.route('/')
-    .get(function (req, res) {
-        inMemoryproductBD.find(function(err,product){
+    .get(function (req, res, next) {
+        db.collection('products').find().toArray(function(err,product){
         	if(err) throw err;
         	res.json(product);
         });
     })
     .post(function (req, res) {
-        const newproduct = req.body;
-        product=new inMemoryproductBD(newproduct);
-        product.save();
-        res.json(newproduct);
+        db.collection('products').save(req.body, (err, result) => {
+    			if (err) {
+        		console.log(err);
+        		res.send(err);
+    			}
+    		})
+        res.json(req.body);
     })
 
 router.route('/:id')
     .get(function (req, res) {
-        inMemoryproductBD.findOne({'id':req.params.id},function(err,product){
+    		console.log(req.params.id);
+        db.collection('products').findOne({'id':+req.params.id},function(err,product){
         	if(err) throw err;
         	res.json(product);
         });
     })
     .put(function (req, res) {
-        inMemoryproductBD.findOneAndUpdate({'id':req.params.id},req.body,function(err,product){
+        db.collection('products').findOneAndUpdate({'id':+req.params.id},req.body,function(err,product){
         	if(err) throw err;
         });
         res.json('OK');
     })
     .delete(function(req,res){
-        inMemoryproductBD.findOneAndRemove({'id':req.params.id},function(err,product){
+        db.collection('products').remove({'id':+req.params.id},function(err,product){
         	if(err) throw err;
         })
         res.json('OK');	

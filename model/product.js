@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/test',{useMongoClient:true});
+mongoose.connect('mongodb://lwam:Godisgood2017@ds041516.mlab.com:41516/onlineshoppingdb',{useMongoClient:true});
 
 const productsSchema=new mongoose.Schema({
 	id:Number,

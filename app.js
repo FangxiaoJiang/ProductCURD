@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+
 var CDCRUD = require('./routes/CDCRUD');
 var BookCRUD = require('./routes/BookCRUD');
 var ProductCRUD = require('./routes/ProductCRUD');
 var UserCRUD = require('./routes/UserCRUD');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -40,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/user', user);
 app.use('/api/CDs', CDCRUD);
 app.use('/api/Books', BookCRUD);
 app.use('/api/Products', ProductCRUD);
